@@ -1,6 +1,7 @@
 
 const path = require('path')
 const webpack = require('webpack')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const resolve = dir => path.join(__dirname, '..', dir)
 
@@ -8,7 +9,12 @@ const env = process.env.NODE_ENV === 'testing'
   ? { NODE_ENV: '"testing"' }
   : { NODE_ENV: '"production"' }
 
+const mode = process.env.NODE_ENV === 'testing'
+  ? "development"
+  : "production"
+
 module.exports = {
+  mode: mode,
   module: {
     rules: [
       {
@@ -35,9 +41,15 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': env
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false }
     })
-  ]
+  ],
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          warnings: false,
+        }
+      })
+    ]
+  }
 }
