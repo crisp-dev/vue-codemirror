@@ -204,7 +204,7 @@
     mounted() {
       this.initialize()
     },
-    beforeDestroy() {
+    beforeUnmount() {
       this.destroy()
     }
   }
