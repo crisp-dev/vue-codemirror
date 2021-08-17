@@ -2,6 +2,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const { VueLoaderPlugin } = require('vue-loader')
 
 const resolve = dir => path.join(__dirname, '..', dir)
 
@@ -41,7 +42,8 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': env
-    })
+    }),
+    new VueLoaderPlugin()
   ],
   optimization: {
     minimizer: [
