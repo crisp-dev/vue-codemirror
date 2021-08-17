@@ -4,6 +4,7 @@
 //   https://github.com/webpack/karma-webpack
 
 var webpackConfig = require('../../config/test.conf')
+const { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = function (config) {
   config.set({
@@ -14,11 +15,20 @@ module.exports = function (config) {
     // 浏览器环境
     browsers: ['PhantomJS'],
     // 测试框架
-    frameworks: ['mocha', 'sinon-chai'],
+    frameworks: ['mocha', 'sinon-chai', 'webpack'],
+    plugins: [
+      'karma-phantomjs-launcher',
+      'karma-mocha',
+      'karma-sinon-chai',
+      'karma-webpack',
+      'karma-coverage',
+      'karma-sourcemap-loader',
+      'karma-spec-reporter'
+    ],
     // 输出报告
     reporters: ['spec', 'coverage'],
     // 在browsers里面运行，把需要测试的文件都 require 进来，在 browsers 里跑，使用 frameworks 测试js，通过 reporters 输出报告
-    files: ['./index.js'],
+    files: [{ pattern: './index.js', watched: false }],
     // 为入口文件制定预处理器，测试 index.js 之前用 webpack 和 sourcemap 处理一下
     preprocessors: {
       './index.js': ['webpack', 'sourcemap']
